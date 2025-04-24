@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bresenham Circle</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        canvas {
+            border: 1px solid #ac0d0d;
+        }
+
+        .info {
+            margin-top: 20px;
+            font-size: 20px;
+            font-family: Arial, sans-serif;
+            color: rgb(9, 9, 9);
+        }
+
+        .title {
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            color: black;
+            text-transform: uppercase; /* Mengubah teks menjadi kapital */
+            margin-bottom: 20px; /* Jarak antara judul dan canvas */
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Lingkaran Bresenham</div>
+    <canvas id="circleCanvas" width="400" height="400"></canvas>
+    <div class="info">
+        <p>Nama : Naufal Yudhistira </p>
+        <p>NPM  : 2413025010</p>
+    </div>
+    <script>
+        function putPixel(ctx, x, y) {
+            ctx.fillStyle = 'green'; // Warna lingkaran
+            ctx.fillRect(x, y, 2, 2); // Ukuran piksel lebih besar untuk ketebalan
+        }
+
+        function circlePlotPoints(ctx, x0, y0, x, y) {
+            putPixel(ctx, x0 + x, y0 + y);
+            putPixel(ctx, x0 - x, y0 + y);
+            putPixel(ctx, x0 + x, y0 - y);
+            putPixel(ctx, x0 - x, y0 - y);
+            putPixel(ctx, x0 + y, y0 + x);
+            putPixel(ctx, x0 - y, y0 + x);
+            putPixel(ctx, x0 + y, y0 - x);
+            putPixel(ctx, x0 - y, y0 - x);
+        }
+
+        function circleBresenham(ctx, x0, y0, r) {
+            let x = 0;
+            let y = r;
+            let d = 3 - 2 * r;
+
+            circlePlotPoints(ctx, x0, y0, x, y);
+
+            while (y >= x) {
+                if (d > 0) {
+                    y--;
+                    d = d + 4 * (x - y) + 10;
+                } else {
+                    d = d + 4 * x + 6;
+                }
+                x++;
+                circlePlotPoints(ctx, x0, y0, x, y);
+            }
+        }
+
+        window.onload = function() {
+            const canvas = document.getElementById('circleCanvas');
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 100; // Ganti dengan radius yang diinginkan
+
+            circleBresenham(ctx, centerX, centerY, radius);
+        };
+    </script>
+
+<a href="index.html">Kembali ke home</a>
+        
+</body>
+</html>
