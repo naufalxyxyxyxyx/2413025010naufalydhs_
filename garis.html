@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garis DDA</title>
+    <style>
+        canvas {
+            border: 1px solid rgb(255, 16, 16);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+        function drawLineDDA(x0, y0, x1, y1) {
+            const dx = Math.abs(x1 - x0);
+            const dy = Math.abs(y1 - y0);
+            let step;
+
+            if (dx > dy) {
+                step = dx;
+            } else {
+                step = dy;
+            }
+
+            const xInc = dx / step;
+            const yInc = dy / step;
+
+            let x = x0;
+            let y = y0;
+
+            const ctx = document.getElementById('canvas').getContext('2d');
+            ctx.fillStyle = 'black';
+
+            for (let i = 0; i <= step; i++) {
+                ctx.fillRect(Math.round(x), Math.round(y), 1, 1);
+                x += xInc;
+                y += yInc;
+            }
+        }
+
+        // Contoh penggunaan
+        drawLineDDA(50, 50, 400, 300);
+    </script>
+</body>
+</html>
